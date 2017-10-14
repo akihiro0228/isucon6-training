@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo systemctl daemon-reload && sudo systemctl restart nginx.service mysql.service isutar.perl.service isuda.perl.service
