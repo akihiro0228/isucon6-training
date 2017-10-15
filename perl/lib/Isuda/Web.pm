@@ -239,7 +239,7 @@ sub htmlify {
     my ($self, $c, $content) = @_;
     return '' unless defined $content;
     my $keywords = $self->dbh->select_all(qq[
-        SELECT keyword FROM entry FORCE INDEX (keyword_length_idx) ORDER BY keyword_length DESC
+        SELECT keyword FROM entry FORCE INDEX (keyword_length_keyword_idx) ORDER BY keyword_length DESC
     ]);
     my %kw2sha;
     my $re = join '|', map { quotemeta $_->{keyword} } @$keywords;
