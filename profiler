@@ -1,0 +1,2 @@
+#!/bin/bash
+myprofiler -user=isucon -password=isucon -interval=0.2
