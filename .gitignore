@@ -6,3 +6,5 @@ ruby/
 scala/
 
 perl/local/
+
+*.swp

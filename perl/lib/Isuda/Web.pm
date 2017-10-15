@@ -89,19 +89,26 @@ get '/' => [qw/set_name/] => sub {
     my $PER_PAGE = 10;
     my $page = $c->req->parameters->{page} || 1;
 
-    my $entries = $self->dbh->select_all(qq[
-        SELECT * FROM entry
+    my $entry_ids = $self->dbh->select_all(qq[
+        SELECT id FROM entry
         ORDER BY updated_at DESC
-        LIMIT $PER_PAGE
-        OFFSET @{[ $PER_PAGE * ($page-1) ]}
     ]);
+
+    my $start_index = $PER_PAGE * ($page-1);
+    my $end_index   = $PER_PAGE * ($page  ) - 1;
+    my $ids = join ',', map { $_->{id} } @{$entry_ids}[$start_index..$end_index];
+
+    my $entries = $self->dbh->select_all(qq[
+        SELECT * FROM entry WHERE id IN ($ids)
+    ]);
+
     foreach my $entry (@$entries) {
         $entry->{html}  = $self->htmlify($c, $entry->{description});
         $entry->{stars} = $self->load_stars($entry->{keyword});
     }
 
     my $total_entries = $self->dbh->select_one(q[
-        SELECT COUNT(*) FROM entry
+        SELECT COUNT(id) FROM entry
     ]);
     my $last_page = ceil($total_entries / $PER_PAGE);
     my @pages = (max(1, $page-5)..min($last_page, $page+5));
