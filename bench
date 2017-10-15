@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/isucon6q
+./isucon6q-bench -target http://127.0.0.1
