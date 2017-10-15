@@ -180,8 +180,7 @@ post '/login' => sub {
 
     my $name = $c->req->parameters->{name};
     my $row = $self->dbh->select_row(q[
-        SELECT * FROM user
-        WHERE name = ?
+        SELECT id, salt, password FROM user WHERE name = ?
     ], $name);
     if (!$row || $row->{password} ne sha1_hex($row->{salt}.$c->req->parameters->{password})) {
         $c->halt(403)
