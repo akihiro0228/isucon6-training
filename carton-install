@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/webapp/perl
+/home/isucon/.local/perl/bin/carton install
